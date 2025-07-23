@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { NextIntlClientProvider } from "next-intl";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,23 +25,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <nav className="flex items-center justify-between p-4 bg-gray-800 text-white">
-          <div className="text-lg font-semibold">My Next.js App</div>
-          <div className="space-x-4">
-            <Link href="/" className="hover:underline">
-              Home
-            </Link>
-            <Link href="/hello" className="hover:underline">
-              Hello
-            </Link>
-          </div>{" "}
-        </nav>
-        {children}
-      </body>
-    </html>
+    <NextIntlClientProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <nav className="flex items-center justify-between p-4 bg-gray-800 text-white">
+            <div className="text-lg font-semibold">My Next.js App</div>
+            <div className="space-x-4">
+              <Link href="/" className="hover:underline">
+                Home
+              </Link>
+              <Link href="/hello" className="hover:underline">
+                Hello
+              </Link>
+            </div>{" "}
+          </nav>
+          {children}
+        </body>
+      </html>
+    </NextIntlClientProvider>
   );
 }
