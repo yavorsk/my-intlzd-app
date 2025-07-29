@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./../globals.css";
 import Link from "next/link";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../i18n/routing";
 import LocaleSwitcher from "../components/LocaleSwitcher";
@@ -28,15 +28,17 @@ export default async function LocalizedLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ lang: string }>;
+  params: Promise<{ locale: string }>;
 }>) {
-  const { lang } = await params;
+  const { locale } = await params;
 
-  console.log("localized layout lang", lang);
+  console.log("localized layout lang", locale);
 
-  if (!hasLocale(routing.locales, lang)) {
+  if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+
+  setRequestLocale(locale);
 
   const t = await getTranslations();
 
@@ -49,10 +51,10 @@ export default async function LocalizedLayout({
           <nav className="flex items-center justify-between p-4 bg-gray-800 text-white">
             <div className="text-lg font-semibold">My Next.js App</div>
             <div className="space-x-4">
-              <Link href={`/${lang}`} className="hover:underline">
+              <Link href={`/${locale}`} className="hover:underline">
                 {t("home")}
               </Link>
-              <Link href={`/${lang}/hello`} className="hover:underline">
+              <Link href={`/${locale}/hello`} className="hover:underline">
                 {t("my-test-page")}
               </Link>
               <div className="ml-10 inline">
@@ -65,4 +67,8 @@ export default async function LocalizedLayout({
       </html>
     </NextIntlClientProvider>
   );
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
 }

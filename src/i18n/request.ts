@@ -12,15 +12,14 @@ export default getRequestConfig(
     // read from `cookies()`, `headers()`, etc.
 
     // Since this function is executed during the Server Components render pass, you can call functions like cookies() and headers() to return configuration that is request-specific. https://next-intl.dev/docs/usage/configuration
-    // resolve site by host
 
+    const site = scConfig.defaultSite;
+
+    // resolve site by host in multisite solution
     // const headersList = await headers();
     // console.log("headers", headersList.get("host"));
     // const siteResolver = new SiteResolver(sites);
     // const site = siteResolver.getByHost(headersList.get("host"));
-
-    //   const site = "skateparktest";
-    const site = scConfig.defaultSite;
 
     const requested = await requestLocale;
     const locale = hasLocale(routing.locales, requested)
@@ -33,8 +32,6 @@ export default getRequestConfig(
       locale,
       site,
     });
-
-    console.log("dictionary", dictionary);
 
     return {
       locale,
