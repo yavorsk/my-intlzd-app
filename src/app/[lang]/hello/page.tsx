@@ -1,5 +1,5 @@
-import { MyClientComponent } from "./../components/clien-components";
-import { MyServerComponent } from "./../components/server-component";
+import { MyClientComponent } from "../../components/clien-components";
+import { MyServerComponent } from "../../components/server-component";
 
 export default function Hello() {
   return (
