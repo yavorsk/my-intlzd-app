@@ -43,7 +43,7 @@ export default async function LocalizedLayout({
   const t = await getTranslations();
 
   return (
-    <NextIntlClientProvider>
+    <NextIntlClientProvider messages={t} locale={locale}>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -56,6 +56,9 @@ export default async function LocalizedLayout({
               </Link>
               <Link href={`/${locale}/hello`} className="hover:underline">
                 {t("my-test-page")}
+              </Link>
+              <Link href={`/${locale}/test`} className="hover:underline">
+                FE component only page
               </Link>
               <div className="ml-10 inline">
                 <LocaleSwitcher />

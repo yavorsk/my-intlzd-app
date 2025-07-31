@@ -3,7 +3,8 @@ import { hasLocale } from "next-intl";
 import { routing } from "./routing";
 import scClient from "./../lib/sitecore-client";
 import scConfig from "./../../sitecore.config";
-// import { headers } from "next/headers";
+
+import { cookies, headers } from "next/headers";
 // import { SiteResolver } from "@sitecore-content-sdk/nextjs";
 
 export default getRequestConfig(
@@ -16,8 +17,10 @@ export default getRequestConfig(
     const site = scConfig.defaultSite;
 
     // resolve site by host in multisite solution
-    // const headersList = await headers();
-    // console.log("headers", headersList.get("host"));
+    const headersList = await headers();
+    console.log("host header: ", headersList.get("host"));
+
+    const cookiesResult = await cookies();
     // const siteResolver = new SiteResolver(sites);
     // const site = siteResolver.getByHost(headersList.get("host"));
 
@@ -26,7 +29,12 @@ export default getRequestConfig(
       ? requested
       : routing.defaultLocale;
 
-    console.log("requesting dictionary ....");
+    console.log("Fetching dictionary ....");
+
+    // function dataFetcher(url: string | URL | Request, data?: RequestInit) {
+    //   console.log("custom data fetcher used for url: ", url);
+    //   return fetch(url, { next: { revalidate: 60 }, ...data });
+    // }
 
     const dictionary = await scClient.getDictionary({
       locale,
