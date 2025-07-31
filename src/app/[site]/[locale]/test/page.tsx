@@ -1,5 +1,5 @@
 import { use } from "react";
-import { MyClientComponent } from "../../components/clien-components";
+import { MyClientComponent } from "../../../components/clien-components";
 import { setRequestLocale } from "next-intl/server";
 
 export default function Hello({
