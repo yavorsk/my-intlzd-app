@@ -5,8 +5,9 @@ import Link from "next/link";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { routing } from "../../i18n/routing";
-import LocaleSwitcher from "../components/LocaleSwitcher";
+import { routing } from "../../../i18n/routing";
+import LocaleSwitcher from "../../components/LocaleSwitcher";
+import { sites } from "../../../../sites";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,11 +29,12 @@ export default async function LocalizedLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{ site: string; locale: string }>;
 }>) {
-  const { locale } = await params;
+  const { site, locale } = await params;
 
   console.log("localized layout lang", locale);
+  console.log("localized layout site", site);
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -72,6 +74,18 @@ export default async function LocalizedLayout({
   );
 }
 
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+// export function generateStaticParams() {
+//   return routing.locales.map((locale) => ({ locale }));
+// }
+
+export async function generateStaticParams() {
+  const params: { siteId: string; locale: string }[] = [];
+
+  sites.forEach((site) => {
+    site.locales.forEach((locale) => {
+      params.push({ siteId: site.id, locale });
+    });
+  });
+
+  return params;
 }
