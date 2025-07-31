@@ -45,7 +45,7 @@ export default async function LocalizedLayout({
   const t = await getTranslations();
 
   return (
-    <NextIntlClientProvider messages={t} locale={locale}>
+    <NextIntlClientProvider>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
