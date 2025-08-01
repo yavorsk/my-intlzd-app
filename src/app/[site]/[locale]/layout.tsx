@@ -33,9 +33,6 @@ export default async function LocalizedLayout({
 }>) {
   const { site, locale } = await params;
 
-  console.log("localized layout lang", locale);
-  console.log("localized layout site", site);
-
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
