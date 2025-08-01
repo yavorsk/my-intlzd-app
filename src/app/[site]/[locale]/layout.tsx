@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./../../globals.css";
 import Link from "next/link";
-import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
-import { notFound } from "next/navigation";
-import { routing } from "../../../i18n/routing";
+import { I18nProviderClient } from "../../../locales/client";
 import LocaleSwitcher from "../../components/LocaleSwitcher";
 import { sites } from "../../../../sites";
+import { getI18n } from "../../../locales/server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,16 +34,10 @@ export default async function LocalizedLayout({
   console.log("localized layout lang", locale);
   console.log("localized layout site", site);
 
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
-
-  setRequestLocale(locale);
-
-  const t = await getTranslations(site);
+  const t = await getI18n();
 
   return (
-    <NextIntlClientProvider>
+    <I18nProviderClient locale={locale}>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -54,10 +46,10 @@ export default async function LocalizedLayout({
             <div className="text-lg font-semibold">My Next.js App</div>
             <div className="space-x-4">
               <Link href={`/${locale}`} className="hover:underline">
-                {t("home")}
+                {t()}
               </Link>
               <Link href={`/${locale}/hello`} className="hover:underline">
-                {t("my-test-page")}
+                {t('my-test")}
               </Link>
               <Link href={`/${locale}/test`} className="hover:underline">
                 FE component only page
@@ -70,13 +62,9 @@ export default async function LocalizedLayout({
           {children}
         </body>
       </html>
-    </NextIntlClientProvider>
+    </I18nProviderClient>
   );
 }
-
-// export function generateStaticParams() {
-//   return routing.locales.map((locale) => ({ locale }));
-// }
 
 export async function generateStaticParams() {
   const params: { siteId: string; locale: string }[] = [];
