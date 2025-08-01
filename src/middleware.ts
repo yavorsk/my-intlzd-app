@@ -4,14 +4,8 @@ import { sites } from "./../sites";
 
 export function middleware(request: NextRequest) {
   const hostname = request.headers.get("host") || "";
-  let currentSite = null;
-
-  for (const site of sites) {
-    if (site.domains.includes(hostname)) {
-      currentSite = site;
-      break;
-    }
-  }
+  const currentSite =
+    sites.find((site) => site.domains.includes(hostname)) || null;
 
   if (!currentSite) {
     return NextResponse.rewrite(new URL("/404", request.url));
