@@ -2,17 +2,12 @@ import { getRequestConfig, GetRequestConfigParams } from "next-intl/server";
 import { hasLocale } from "next-intl";
 import { routing } from "./routing";
 import scClient from "./../lib/sitecore-client";
-import scConfig from "./../../sitecore.config";
 import { sites } from "../../sites";
-
-// import { cookies, headers } from "next/headers";
-// import { SiteResolver } from "@sitecore-content-sdk/nextjs";
 
 export default getRequestConfig(
   async ({ requestLocale }: GetRequestConfigParams) => {
     // Provide a static locale, fetch a user setting,
     // read from `cookies()`, `headers()`, etc.
-
     // Since this function is executed during the Server Components render pass, you can call functions like cookies() and headers() to return configuration that is request-specific. https://next-intl.dev/docs/usage/configuration
 
     const requested = await requestLocale;
@@ -38,8 +33,6 @@ export default getRequestConfig(
         );
       })
     );
-
-    console.log(messages);
 
     return {
       locale,
