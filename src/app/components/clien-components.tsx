@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 export function MyClientComponent() {
-  const t = useTranslations();
+  const t = useTranslations("skateparktest");
   const [count, setCount] = useState(0);
 
   console.log("Client component rendered");

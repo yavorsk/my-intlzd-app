@@ -42,7 +42,7 @@ export default async function LocalizedLayout({
 
   setRequestLocale(locale);
 
-  const t = await getTranslations();
+  const t = await getTranslations(site);
 
   return (
     <NextIntlClientProvider>

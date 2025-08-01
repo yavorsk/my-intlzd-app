@@ -18,21 +18,14 @@ export function middleware(request: NextRequest) {
   }
 
   const { pathname } = request.nextUrl;
-  // let locale = currentSite.defaultLocale;
-
-  console.log("pathname from request: ", pathname);
 
   const localeFromPath = currentSite.locales.find(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  console.log("locale from path: ", localeFromPath);
-
   const pathWithoutLocale = localeFromPath
     ? pathname.substring(localeFromPath.length + 1)
     : pathname;
-
-  console.log("path without locale: ", pathWithoutLocale);
 
   const locale = localeFromPath || currentSite.defaultLocale;
 
@@ -43,14 +36,7 @@ export function middleware(request: NextRequest) {
     request.url
   );
 
-  console.log("new URL:", newUrl.toString());
-
   const response = NextResponse.rewrite(newUrl);
-
-  // **** IMPORTANT: Pass siteId and resolved locale as headers ****
-  response.headers.set("x-site-id", currentSite.id);
-  // next-intl might set 'x-next-intl-locale' but explicitly setting our resolved one is safer.
-  response.headers.set("x-resolved-locale", locale); // Custom header for the resolved locale
 
   return response;
 }

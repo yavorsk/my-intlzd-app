@@ -3,7 +3,7 @@ import { routing } from "../../i18n/routing";
 import LocaleSwitcherSelect from "./LocaleSwitcherSelect";
 
 export default function LocaleSwitcher() {
-  const t = useTranslations();
+  const t = useTranslations("skateparktest");
   const locale = useLocale();
 
   return (

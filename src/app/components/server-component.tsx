@@ -1,7 +1,7 @@
 import { useLocale, useTranslations } from "next-intl";
 
 export function MyServerComponent() {
-  const t = useTranslations();
+  const t = useTranslations("skateparktest");
   const locale = useLocale();
   console.log("Server component rendered");
   console.log("locale", locale);
